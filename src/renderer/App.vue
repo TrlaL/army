@@ -41,4 +41,8 @@ body, html {
   margin: 0;
   padding: 10px;
 }
+
+.b-table-sticky-header {
+  margin: 0;
+}
 </style>

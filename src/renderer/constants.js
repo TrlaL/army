@@ -12,7 +12,7 @@ export const TABLE_FIELDS = [{
   label: 'Ф.И.О.'
 }, {
   key: 'number',
-  label: 'Табельный номер'
+  label: 'Табельник'
 }, {
   key: 'year',
   label: 'Год'

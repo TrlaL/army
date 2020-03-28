@@ -6,29 +6,32 @@
       </div>
     </template>
     <template v-else>
-      <b-form-input
-        class="mb-2"
-        placeholder="Поиск по таблице"
-        v-model="query">
-      </b-form-input>
-      <b-table
-        bordered
-        empty-text="Пусто"
-        hover
-        show-empty
-        small
-        :fields="fields"
-        :items="filteredItems"
-        :sort-by="sortBy">
-        <template v-slot:cell()="data">
-          <div
-            class="cell"
-            :class="getCellClass(data)"
-            @click="selectCell(data)">
-             {{ data.value || '-' }}
-          </div>
-        </template>
+      <div class="wrapper">
+        <b-form-input
+          class="mb-2"
+          placeholder="Поиск по таблице"
+          v-model="query">
+        </b-form-input>
+        <b-table
+          bordered
+          empty-text="Пусто"
+          hover
+          show-empty
+          small
+          sticky-header="100%"
+          :fields="fields"
+          :items="filteredItems"
+          :sort-by="sortBy">
+          <template v-slot:cell()="data">
+            <div
+              class="cell"
+              :class="getCellClass(data)"
+              @click="selectCell(data)">
+              {{ data.value || '-' }}
+            </div>
+          </template>
       </b-table>
+      </div>
     </template>
     <GlobalEvents
       @keydown="onKeyDown"
@@ -68,9 +71,11 @@ export default {
       return this.filteredItems.length.toString()
     },
     fields () {
-      return this.tableFields.map(field => {
-        return { ...field, tdClass: 'p-0', sortable: true }
-      }).concat(this.monthsFields)
+      return this.tableFields.map(field => ({
+        ...field,
+        tdClass: 'p-0',
+        sortable: true
+      })).concat(this.monthsFields)
     },
     filteredItems () {
       return this.items.filter(item => {
@@ -213,6 +218,12 @@ export default {
   height: 100%;
   justify-content: center;
   width: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .cell {
