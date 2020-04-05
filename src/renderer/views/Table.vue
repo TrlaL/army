@@ -59,7 +59,6 @@ export default {
     query: '',
     selectedCell: { field: 0, row: 0 },
     sortBy: 'order',
-    tableFields: TABLE_FIELDS,
     window: remote.getCurrentWindow()
   }),
 
@@ -71,25 +70,15 @@ export default {
       return this.filteredItems.length.toString()
     },
     fields () {
-      return this.tableFields.map(field => ({
+      return TABLE_FIELDS.map(field => ({
         ...field,
         tdClass: 'p-0',
         sortable: true
-      })).concat(this.monthsFields)
+      }))
     },
     filteredItems () {
       return this.items.filter(item => {
         return lodash.values(item).find(value => new RegExp(this.query, 'i').test(value))
-      })
-    },
-    monthsFields () {
-      return this.months.map((month, index) => {
-        return {
-          key: this.pad(index + 1),
-          label: month,
-          sortable: true,
-          tdClass: 'p-0'
-        }
       })
     },
     selectedValue () {
@@ -97,6 +86,12 @@ export default {
       let item = this.items[row]
       let findedField = this.fields[field]
       return item[findedField.key]
+    }
+  },
+
+  watch: {
+    items (items) {
+      this.$store.commit('SET_ITEMS', items)
     }
   },
 
@@ -193,12 +188,13 @@ export default {
           let month = date[1]
           let year = date[2]
           let index = lodash.findIndex(this.items, { id, year })
+          let monthValue = MONTHS[parseInt(month)]
           if (index !== -1) {
             let current = lodash.get(this.items[index], month, 0)
-            lodash.set(this.items[index], month, current + value)
+            lodash.set(this.items[index], monthValue, current + value)
           } else {
             let { name, number, rank } = lodash.find(this.personnel, { id }) || {}
-            this.items.push({ order: order++, rank, name, number, id, year, [month]: value })
+            this.items.push({ order: order++, rank, name, number, id, year, [monthValue]: value })
           }
         })
       })

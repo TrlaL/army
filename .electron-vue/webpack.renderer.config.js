@@ -27,7 +27,11 @@ let rendererConfig = {
     renderer: path.join(__dirname, '../src/renderer/main.js')
   },
   externals: [
-    ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
+    ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d)),
+		{
+			'./cptable': 'var cptable',
+			'../xlsx.js': 'var _XLSX'
+		}
   ],
   module: {
     rules: [
@@ -134,7 +138,7 @@ let rendererConfig = {
             files: assets,
             options: options
           },
-          process,
+          process
         };
       },
       minify: {

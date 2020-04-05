@@ -7,6 +7,7 @@ export default [{
   path: '/'
 }, {
   component: Table,
+  meta: { exportIcon: true },
   name: 'table',
   path: '/table'
 }]

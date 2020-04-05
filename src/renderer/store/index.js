@@ -7,11 +7,13 @@ export default new Vuex.Store({
   state: {
     cancelButton: true,
     files: {},
+    items: [],
     okButton: true
   },
   getters: {
     cancelButton: state => state.cancelButton,
     files: state => state.files,
+    items: state => state.items,
     okButton: state => state.okButton
   },
   mutations: {
@@ -23,6 +25,9 @@ export default new Vuex.Store({
     },
     SET_FILES (state, files) {
       state.files = files
+    },
+    SET_ITEMS (state, items) {
+      state.items = items
     }
   }
 })

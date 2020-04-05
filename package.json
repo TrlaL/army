@@ -50,7 +50,10 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64", "ia32"]
+          "arch": [
+            "x64",
+            "ia32"
+          ]
         }
       ]
     },
@@ -60,8 +63,10 @@
   },
   "dependencies": {
     "bootstrap": "^4.4.1",
-    "bootstrap-vue": "^2.5.0",
+    "bootstrap-vue": "^2.10.1",
     "jquery": "^3.4.1",
+    "material-icons": "^0.3.1",
+    "node-excel-export": "^1.4.4",
     "vue": "^2.6.11",
     "vue-bus": "^1.2.1",
     "vue-electron": "^1.0.6",

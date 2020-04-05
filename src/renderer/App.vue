@@ -18,6 +18,9 @@ export default {
 </script>
 
 <style lang="scss">
+$material-icons-font-path: '~material-icons/iconfont/';
+ 
+@import 'node_modules/material-icons/iconfont/material-icons.scss';
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/bootstrap-vue/src/index.scss';
 

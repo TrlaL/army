@@ -1,9 +1,11 @@
 <template>
   <div class="header">
-    <div class="title">Whatafuck by Tr1aL</div>
+    <div class="title">Whatafuck</div>
     <div class="icons">
-      <b-icon-question class="icon-question" @click="visible = true" />
-      <b-icon-x class="icon" @click="close" />
+      <Icon class="icon" name="save_alt" v-show="exportIcon" @click="exportFile" />
+      <Icon class="icon" name="help_outline" @click="showModal" />
+      <Icon class="icon" name="minimize" @click="minimize" />
+      <Icon class="icon" name="close" @click="close" />
     </div>
     <b-modal
       centered
@@ -12,14 +14,19 @@
       :visible="visible"
       @hide="visible = false">
       <div>Разработчик: Марк Уолберг ака Tr1aL</div>
-      <div>Версия: 1.0</div>
-      <div>Дата разработки: 28.03.2020</div>
+      <div>Версия: 1.0.1</div>
+      <div>Дата разработки: 05.04.2020</div>
     </b-modal>
   </div>
 </template>
 
 <script>
+import excel from 'node-excel-export'
+import fs from 'fs'
+import lodash from 'lodash'
+import { mapGetters } from 'vuex'
 import { remote } from 'electron'
+import { TABLE_FIELDS } from '../constants'
 
 export default {
   data: () => ({
@@ -27,9 +34,57 @@ export default {
     window: remote.getCurrentWindow()
   }),
 
+  computed: {
+    ...mapGetters([
+      'items'
+    ]),
+    exportIcon () {
+      return this.$route.meta.exportIcon
+    },
+    options () {
+      return {
+        title: 'Сохранить файл',
+        defaultPath: 'export',
+        buttonLabel: 'Сохранить',
+        filters: [
+          { name: 'xlsx', extensions: ['xlsx'] }
+        ]
+      }
+    },
+    specification () {
+      let fields = TABLE_FIELDS.map(({ key, label }) => ({ displayName: label, key, headerStyle: this.styles.headerDark }))
+      return lodash.keyBy(fields, 'key')
+    },
+    styles () {
+      return {
+        headerDark: {
+          fill: {
+            fgColor: { rgb: 'FF000000' }
+          },
+          font: {
+            color: { rgb: 'FFFFFFFF' },
+            sz: 12
+          }
+        }
+      }
+    }
+  },
+
   methods: {
     close () {
       this.window.close()
+    },
+    exportFile () {
+      remote.dialog.showSaveDialog(this.options, name => {
+        let exportFile = excel.buildExport([{ data: this.items, specification: this.specification }])
+        fs.writeFileSync(name, exportFile, 'utf-8')
+      })
+    },
+    minimize () {
+      this.window.minimize()
+    },
+    showModal () {
+      this.visible = true
     }
   }
 }
@@ -61,18 +116,11 @@ $padding: 10px;
 
     .icon {
       cursor: pointer;
-      height: $icon-size;
-      width: $icon-size;
+      margin-left: 5px;
 
       &:hover {
         color: #666;
       }
-    }
-
-    .icon-question {
-      @extend .icon;
-      height: $icon-size - 8px;
-      width: $icon-size - 8px;
     }
   }
 }
