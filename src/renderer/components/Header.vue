@@ -52,7 +52,12 @@ export default {
       }
     },
     specification () {
-      let fields = TABLE_FIELDS.map(({ key, label }) => ({ displayName: label, key, headerStyle: this.styles.headerDark }))
+      let fields = TABLE_FIELDS.map(({ key, label }) => ({
+        displayName: label,
+        key: key,
+        headerStyle: this.styles.headerDark,
+        width: 120
+      }))
       return lodash.keyBy(fields, 'key')
     },
     styles () {

@@ -188,9 +188,9 @@ export default {
           let month = date[1]
           let year = date[2]
           let index = lodash.findIndex(this.items, { id, year })
-          let monthValue = MONTHS[parseInt(month)]
+          let monthValue = MONTHS[parseInt(month - 1)]
           if (index !== -1) {
-            let current = lodash.get(this.items[index], month, 0)
+            let current = lodash.get(this.items[index], monthValue, 0)
             lodash.set(this.items[index], monthValue, current + value)
           } else {
             let { name, number, rank } = lodash.find(this.personnel, { id }) || {}
