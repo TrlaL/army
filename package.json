@@ -64,7 +64,7 @@
   "dependencies": {
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.10.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "material-icons": "^0.3.1",
     "node-excel-export": "^1.4.4",
     "vue": "^2.6.11",
